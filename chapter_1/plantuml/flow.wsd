@@ -1,0 +1,86 @@
+
+@startuml
+
+title llc注册ZPU时序图
+
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+
+skinparam sequence {
+ArrowColor DeepSkyBlue
+ActorBorderColor DeepSkyBlue
+LifeLineBorderColor blue
+LifeLineBackgroundColor #A9DCDF
+
+ParticipantBorderColor DeepSkyBlue
+ParticipantBackgroundColor DodgerBlue
+ParticipantFontName Impact
+ParticipantFontSize 17
+ParticipantFontColor #A9DCDF
+
+EntityBorderColor DeepSkyBlue
+EntityBackgroundColor DodgerBlue
+EntityFontName Impact
+EntityFontSize 17
+EntityFontColor #A9DCDF
+
+
+ActorBackgroundColor aqua
+ActorFontColor DeepSkyBlue
+ActorFontSize 17
+ActorFontName Aapex
+}
+
+actor User
+
+participant llc
+
+participant Init
+
+participant lookupTarget
+
+box "需要注册的信息"
+participant TargetInfo
+
+participant TargetMcDesc
+
+participant TargetMachine
+end box
+
+box "ZPU后端"
+entity ZPU
+end box
+
+User          ->          llc: 用户传递参数给llc
+activate llc
+
+llc           ->          Init: 初始化LLVM所支持的所有后端
+activate Init
+
+box "注册流程"
+Init          ->          TargetInfo: 注册ZPU信息
+activate TargetInfo
+TargetInfo    ->          TargetMcDesc: 注册ZPU目标架构格式的描述
+activate TargetMcDesc
+TargetMcDesc  ->          TargetMachine: 注册ZPU目标架构注册到LLVM后端
+activate TargetMachine
+
+TargetMachine ->          ZPU: 将ZPU注册到LLVM后端
+
+TargetMachine ->          Init: 目标架构已注册至LLVM后端
+
+Init          ->          llc:  目标架构初始化完成
+
+llc           ->          lookupTarget: 查找指定的目标架构
+
+lookupTarget  ->          ZPU: 查找到指定的目标架构ZPU
+
+ZPU           ->          llc: llc获取指定的目标架构
+
+llc           ->          ZPU: llc传递用户指定的参数, 使ZPU架构开始工作
+
+ZPU           ->          llc: ZPU工作完成并返回
+
+llc           ->          User: llc工作完成
+
+@enduml
