@@ -1,0 +1,157 @@
+@startuml
+
+title 'legacyPassManager类关系'
+
+skinparam groupInheritance 2
+
+top to bottom direction
+
+' 类定义
+
+class PassManagerBase {
+  {abstract} +add(): void
+}
+
+together {
+
+  class FunctionPassManager {
+    + add(): void
+    + run(): void
+    - FPM: FunctionPassManagerImpl
+    - M: Module
+  }
+
+  class PassManager {
+    + add(): void
+    + run(): void
+    - PM: PassManagerImpl
+  }
+
+}
+
+together {
+
+  class PassManagerImpl {
+    + add(): void
+    + run(): bool
+  }
+
+  class FunctionPassManagerImpl {
+    + add(): void
+    + run(): bool
+  }
+
+}
+
+
+' -----*------
+together {
+
+  class PMStack {
+    + begin(): iterator
+    + end(): iterator
+    + push(): void
+    + pop(): void
+  }
+
+  class PMDataManager {
+    # TPM: PMTopLevelManager
+    # PassVector: SmallVector<Pass*, 16>
+  }
+
+  class PMTopLevelManager {
+    # PassManagers: SmallVector
+    - IndirectPassManagers: SmallVector
+    - LastUser: DenseMap
+    - InversedLastUser: DenseMap
+    - ImmutablePasses: SmallVector
+    - ImmutablePassMap: SmallVector
+    + activeStack: PMStack
+    ----
+    + schedulePass(): void
+    + findAnalysisPass(): Pass
+    + findAnalysisPassInfo(): PassInfo
+    + findAnalysisUsage(): AnalysisUsage
+  }
+
+}
+
+class Pass {
+  - PassID: void*
+  {abstract} + assignPassManager(): void
+}
+
+together {
+
+  class ModulePass {
+
+  }
+
+  class FPPassManager {
+
+  }
+
+}
+
+class MPPassManager {
+  {static} + ID: char
+}
+
+
+' *****************
+' ***** 类关系 *****
+' *****************
+
+' PassManagerBase类关系
+PassManagerBase                     <|-down-                  PassManager
+PassManagerBase                     <|-down-                  FunctionPassManager
+
+' PassManager类关系
+PassManager                         o-down-                   PassManagerImpl
+
+' PassManagerImpl类关系
+PassManagerImpl                     -down-|>                  PMTopLevelManager
+PassManagerImpl                     -down-|>                  PMDataManager
+PassManagerImpl                     -down-|>                  Pass
+
+' FunctionPassManager类关系
+FunctionPassManager                 o-down-                   FunctionPassManagerImpl
+
+' FunctionPassManagerImpl类关系
+FunctionPassManagerImpl             -down-|>                  PMTopLevelManager
+FunctionPassManagerImpl             -down-|>                  PMDataManager
+FunctionPassManagerImpl             -down-|>                  Pass
+
+' PMTopLevelManager类关系
+PMTopLevelManager                   o-down-                   PMStack
+
+' PMDataManager类关系
+PMDataManager                       -                         PMStack
+
+' PMTopLevelManager与PMDataManager之间的关系
+PMDataManager                       o-down-                   PMTopLevelManager
+
+' ModulePass类关系
+ModulePass                          -up-|>                    Pass
+
+' FPPassManager类关系
+FPPassManager                       -up-|>                    PMDataManager
+FPPassManager                       -up-|>                    ModulePass
+
+' MPPassManger类关系
+MPPassManager                       -up-|>                    Pass
+MPPassManager                       -up-|>                    PMDataManager
+
+' ***** 注释 *****
+note "PassManager\n和FunctionPassManager\n是LegacyPassManager对\n外暴露的接口类" as export_interface
+
+note "PMDataManager主要用于\n管理每个PassManager中的Pass\nPMTopLevelManager主要用于\nPassManager的管理和Pass的调度(排序)" as pm_effect
+
+' ***** 注释 *****
+PassManager                       .up.                        export_interface
+FunctionPassManager               .up.                        export_interface
+
+PMDataManager                     .up.                        pm_effect
+PMTopLevelManager                 .up.                        pm_effect
+
+@enduml
