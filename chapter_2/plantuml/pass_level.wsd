@@ -1,0 +1,19 @@
+@startuml
+
+skinparam actorStyle awesome
+
+rectangle ModulePass {
+  usecase Module as M
+  usecase MachineModuleInfo as MMI
+  usecase MachineFunction as MF
+  usecase MachineBasicBlock as MB
+  usecase MachineInstr as MI
+}
+
+jayson    .right..        M
+M         -->             MMI : getAnalysis<T>().getMMI()
+MMI       -->             MF  : getMachineFunction()
+MF        -->             MB  : iterator
+MB        -->             MI  : iterator
+
+@enduml

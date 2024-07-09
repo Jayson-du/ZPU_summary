@@ -1,0 +1,59 @@
+@startuml
+
+title "Pass继承关系"
+
+skinparam groupInheritance 2
+
+' *****
+' 类声明
+' *****
+class Pass {
+
+}
+
+class ModulePass {
+
+}
+
+class FunctionPass {
+
+}
+
+class CallGraphSCCPass {
+
+}
+
+class LoopPass {
+
+}
+
+class RegionPass {
+
+}
+
+class ImmutablePass {
+
+}
+
+class MachineFunctionPass {
+
+}
+
+' *****
+' 类关系
+' *****
+
+' Pass 继承关系
+Pass                              <|-down-                    ModulePass
+Pass                              <|-down-                    FunctionPass
+Pass                              <|-down-                    CallGraphSCCPass
+Pass                              <|-down-                    LoopPass
+Pass                              <|-down-                    RegionPass
+
+' ModulePass继承关系
+ModulePass                        <|-down-                    ImmutablePass
+
+' FunctionPass继承关系
+FunctionPass                      <|-down-                    MachineFunctionPass
+
+@enduml

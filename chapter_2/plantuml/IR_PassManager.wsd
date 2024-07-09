@@ -1,0 +1,53 @@
+@startuml
+
+title "IR与PassManager之间关系"
+
+left to right direction
+
+<style>
+.stereo {
+  BackgroundColor lightblue
+}
+</style>
+
+skinparam rectangle {
+  RoundCorner 25
+}
+
+' rectangle {
+
+  rectangle "IR Unit" {
+    rectangle Module {
+      rectangle CGSCC {
+        rectangle Function {
+          rectangle Loop {
+            rectangle BasicBlock {
+            }
+          }
+        }
+      }
+    }
+  }
+
+  rectangle "PassManager" {
+    rectangle ModulePassManager {
+      rectangle CGSCCPassManager {
+        rectangle FPPassManager {
+          rectangle LPPassManager {
+            rectangle BBPassManager {
+            }
+          }
+        }
+      }
+    }
+  }
+
+' }
+
+Module          <-->        ModulePassManager
+CGSCC           <-->        CGSCCPassManager
+Function        <-->        FPPassManager
+Loop            <-->        LPPassManager
+BasicBlock      <-->        BBPassManager
+
+@enduml
