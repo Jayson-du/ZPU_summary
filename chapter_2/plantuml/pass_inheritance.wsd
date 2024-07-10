@@ -40,6 +40,11 @@ class MachineFunctionPass {
 }
 
 ' *****
+' 注释
+' *****
+note "ImmutablePass类不是通常意义的转换或分析类型;\n当使用其他类型pass有复杂性问题时,可以考虑使用\nImmutablePass;ImmutablePass可以不和任何IR\n关联;ImmutablePass结果是不变的(immutable),\n也不会失效(invalidated);这种pass的一个重要作用\n是提供当前机器的编译配置信息,以及可能影响其他\n各种转换的信息" as note_Immu_spec
+
+' *****
 ' 类关系
 ' *****
 
@@ -55,5 +60,9 @@ ModulePass                        <|-down-                    ImmutablePass
 
 ' FunctionPass继承关系
 FunctionPass                      <|-down-                    MachineFunctionPass
+
+' *****
+' 注释
+note_Immu_spec                    .>                          ImmutablePass
 
 @enduml

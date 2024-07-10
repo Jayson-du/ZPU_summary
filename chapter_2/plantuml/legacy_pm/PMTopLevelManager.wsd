@@ -1,0 +1,20 @@
+@startuml
+
+title "PMTopLevelMangaer类分析"
+
+class PMTopLevelMangaer {
+  + findAnalysisPass(): Pass
+  + findAnalysisPassInfo(): PassInfo
+}
+
+note left of PMTopLevelMangaer::findAnalysisPass
+  根据'AnalysisID'查找所有'desired'
+  的'ImmutablePass'和所有的PM, 如果
+  没查到, 返回'NULL'
+end note
+
+note left of PMTopLevelMangaer::findAnalysisPassInfo
+  根据'AnalysisID'查找PassInfo
+end note
+
+@enduml

@@ -69,7 +69,6 @@ together {
     + activeStack: PMStack
     ----
     + schedulePass(): void
-    + findAnalysisPass(): Pass
     + findAnalysisPassInfo(): PassInfo
     + findAnalysisUsage(): AnalysisUsage
   }
