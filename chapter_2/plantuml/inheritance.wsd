@@ -146,11 +146,17 @@ note "PassManager\n和FunctionPassManager\n是LegacyPassManager对\n外暴露的
 
 note "PMDataManager主要用于\n管理每个PassManager中的Pass\nPMTopLevelManager主要用于\nPassManager的管理和Pass的调度(排序)" as pm_effect
 
+note "PMStack是一个用于存放PMDataManager\n结构的栈; 顶层PM使用PMStack结构\n维护活跃的PM; 每个Pass通过重写\n'assignPassManager()函数'将Pass与PM关联;" as pmstack_spec_0
+note "'assignPassManager()'函数通过遍历\nPMStack为Pass查找合适的PM" as pmstack_spec_1
+
 ' ***** 注释 *****
 PassManager                       .up.                        export_interface
 FunctionPassManager               .up.                        export_interface
 
 PMDataManager                     .up.                        pm_effect
 PMTopLevelManager                 .up.                        pm_effect
+
+PMStack                           ..                          pmstack_spec_0
+PMStack                           ..                          pmstack_spec_1
 
 @enduml
