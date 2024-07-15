@@ -8,12 +8,14 @@ top to bottom direction
 
 ' 类定义
 
-class PassManagerBase {
+' Pass管理器抽象接口
+interface PassManagerBase {
   {abstract} +add(): void
 }
 
 together {
 
+  ' legacy PassManager管理FunctionPass
   class FunctionPassManager {
     + add(): void
     + run(): void
@@ -21,6 +23,7 @@ together {
     - M: Module
   }
 
+  ' legacy PassManager管理ModulePassManager
   class PassManager {
     + add(): void
     + run(): void

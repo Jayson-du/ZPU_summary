@@ -1,0 +1,36 @@
+@startuml
+
+title "LegacyPassManager文件分析"
+
+skinparam groupInheritance 2
+
+interface PassManagerBase {
+  {abstract} + add: void
+}
+
+class MPPassManager {
+  {abstract} + add: void
+}
+
+class FunctionPassManager {
+  {abstract} + add: void
+}
+
+' 类关系
+PassManagerBase                       <|-down-            MPPassManager
+PassManagerBase                       <|-down-            FunctionPassManager
+
+' 注释
+note "抽象Pass管理器基类" as note_PMBase_spec
+
+note "Legacy Pass manager管理ModulePasses" as note_MP_spec
+
+note "Legacy Pass manager管理FunctionPasses" as note_FMP_spec
+
+
+note_PMBase_spec                      ..                  PassManagerBase
+note_MP_spec                          ..                  MPPassManager
+note_FMP_spec                         ..                  FunctionPassManager
+
+
+@enduml

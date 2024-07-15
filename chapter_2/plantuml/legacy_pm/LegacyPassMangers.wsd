@@ -1,0 +1,46 @@
+@startuml
+
+title 'LegacyPassManagers.h文件分析'
+
+skinparam groupInheritance 2
+
+class PassMangerPrettyStackEntry {
+  + print(): void
+}
+
+note left of PassMangerPrettyStackEntry
+  "打印Pass传递的信息的类"
+endnote
+
+class PMStack {
+  - S: vector
+}
+
+note left of PMStack::S
+  "存储的PMDataManager数据存储在S中,
+  S是一个std::vector<PMDataManager*>"
+endnote
+
+class PMTopLevelManager {
+  + schedulePass(): void
+}
+
+class PMDataManager {
+
+}
+
+
+' 注释
+note "一个自定义的维护和存储PMDataManager数据的栈结构" as note_PMStack_spec
+
+note "管理Pass的最后一个使用者并且收集顶层Pass常用的API" as note_PMTop_spec
+
+note "Pass Manager使用PMDataManager管理分析Pass产生的信息" as note_PMData_spec
+
+
+note_PMStack_spec               ..                PMStack
+note_PMTop_spec                 ..                PMTopLevelManager
+note_PMData_spec                ..                PMDataManager
+
+
+@enduml
