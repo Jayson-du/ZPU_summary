@@ -63,17 +63,17 @@ together {
   }
 
   class PMTopLevelManager {
-    # PassManagers: SmallVector
-    - IndirectPassManagers: SmallVector
-    - LastUser: DenseMap
-    - InversedLastUser: DenseMap
-    - ImmutablePasses: SmallVector
-    - ImmutablePassMap: SmallVector
-    + activeStack: PMStack
+    ' # PassManagers: SmallVector
+    ' - IndirectPassManagers: SmallVector
+    ' - LastUser: DenseMap
+    ' - InversedLastUser: DenseMap
+    ' - ImmutablePasses: SmallVector
+    ' - ImmutablePassMap: SmallVector
+    ' + activeStack: PMStack
     ----
     + schedulePass(): void
-    + findAnalysisPassInfo(): PassInfo
-    + findAnalysisUsage(): AnalysisUsage
+    ' + findAnalysisPassInfo(): PassInfo
+    ' + findAnalysisUsage(): AnalysisUsage
   }
 
 }
@@ -131,7 +131,7 @@ PMTopLevelManager                   o-down-                   PMStack
 PMDataManager                       -                         PMStack
 
 ' PMTopLevelManager与PMDataManager之间的关系
-PMDataManager                       o-down-                   PMTopLevelManager
+PMDataManager                       *--                       PMTopLevelManager
 
 ' ModulePass类关系
 ModulePass                          -up-|>                    Pass

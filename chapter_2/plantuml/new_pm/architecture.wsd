@@ -1,0 +1,9 @@
+@startuml
+
+' 类定义
+struct PassInfoMixin {
+  {static} +name(): void
+  + printPipeline(): void
+}
+
+@enduml
