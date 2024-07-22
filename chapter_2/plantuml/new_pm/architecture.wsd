@@ -2,6 +2,8 @@
 
 top to bottom direction
 
+skinparam groupInheritance 2
+
 ' **********
 ' 类定义
 ' **********
@@ -48,6 +50,40 @@ together {
   }
 }
 
+together {
+  Interface AnalysisManager {
+    template<T> AnalysisManager
+
+  }
+
+  class TAnalysisManager_F<Functio> {
+    AnalysisManager<Function>
+
+  }
+
+  class TAnalysisManager_M<Module> {
+    AnalysisManager<Module>
+
+  }
+
+}
+
+together {
+  Interface PassManager {
+    template <T> PassManger
+  }
+
+  class TPassManager_F<Functio> {
+    PassManager<Function>
+  }
+
+  class TPassManager_M<Module> {
+    PassManager<Module>
+  }
+}
+
+
+
 struct PassInfoMixin {
   {static} +name(): void
   + printPipeline(): void
@@ -56,7 +92,15 @@ struct PassInfoMixin {
 ' **********
 ' 类关系
 ' **********
-PreservedAnalyses             #--             PreservedAnalysisChecker #line:lightGreen;text:lightGreen : frined
+PreservedAnalyses                 #--               PreservedAnalysisChecker #line:lightGreen;text:lightGreen : frined
 
+
+' AnalysisManager关系
+AnalysisManager                   <|.down.                TAnalysisManager_F
+AnalysisManager                   <|.down.                TAnalysisManager_M
+
+' PassManager关系
+PassManager                       <|.down.                TPassManager_F
+PassManager                       <|.down.                TPassManager_M
 
 @enduml
