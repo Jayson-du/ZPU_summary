@@ -1,0 +1,74 @@
+@startuml
+
+title "LLVM New PassMangerInternal.h文件包含类型分析"
+
+top to bottom direction
+
+skinparam groupInheritance 2
+
+' **********
+' 类定义
+' **********
+struct PassConcept {
+  {abstract} + run(): PreservedAnalyses
+  {abstract} + printPipeline(): void
+  {abstract} + name(): StringRef
+  {abstract} + isRequired(): bool
+}
+
+struct PassModel {
+  + run(): PreservedAnalyses
+  + printPipeline(): void
+  + name(): StringRef
+  + isRequired(): bool
+  + Pass: <PassT>
+}
+
+struct AnalysisResultConcept {
+  {abstract} + invalidate(): bool
+}
+
+struct AnalysisResultModel {
+  + invalidate: bool
+  + Result: <ResultT>
+}
+
+struct AnalysisPassConcept {
+  {abstract} + run(): unique_ptr
+  {abstract} + name(): StringRef
+}
+
+struct AnalysisPassModel {
+  + run(): unique_ptr
+  + name(): StringRef
+  + Pass: <PassT>
+}
+
+class ResultHasInvalidateMethod {
+
+}
+
+
+' **********
+' 类关系
+' **********
+PassConcept               <|--      PassModel
+
+AnalysisResultConcept     <|--      AnalysisResultModel
+
+AnalysisPassConcept       <|--      AnalysisPassModel
+
+' **********
+' 注释
+' **********
+note "PassModel是Pass的一个封装, \nPassModel里面的<b><color:red><size:18>PassT Pass</size></color></b>\n是PassModel的元数据, \n即就是一个Pass" as note_passmodel
+
+note "AnalysisPassModel是对\nAnalysis类型Pass的封装,\n<b><color:red><size:18>PassT Pass</size></color></b>就是一个\n<b><color:red><size:18>Analysis类型的Pass</size></color></b>" as note_analysispassmodel
+
+' **********
+' 注释关系
+' **********
+PassModel::Pass                 .left.        note_passmodel
+
+AnalysisPassModel::Pass         .left.        note_analysispassmodel
+@enduml

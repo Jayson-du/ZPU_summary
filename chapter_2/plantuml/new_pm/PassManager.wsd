@@ -109,15 +109,17 @@ together {
 
   together {
     Interface PassManager {
-    --属性--
       # Passes: vector
-    --方法--
       + run(): PreservedAnalyses
       + addPass(): bool
     }
 
     note right of PassManager::Passes
-      存储Pass的容器
+      存储Pass的容器, Pass的类型是
+      std::vector<
+        std::unique_ptr<PassConceptT>>
+      容器里封装的是PassConcept类型,
+      其定义在PassManagerInternal.h文件;
     end note
 
     note right of PassManager::run
@@ -125,7 +127,9 @@ together {
     end note
 
     note right of PassManager::addPass
-      添加一个Pass
+      添加一个Pass,
+      一般在addPass时, 会往Passes中push_back
+      PassConcept的子类PassModle
     end note
 
     class TPassManager_F<Functio> {
