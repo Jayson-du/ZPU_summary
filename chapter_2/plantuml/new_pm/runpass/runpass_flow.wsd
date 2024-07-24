@@ -1,0 +1,31 @@
+@startuml
+
+title "mypass run分析"
+
+autonumber
+
+actor             "FunctionPassManager" as FPM
+boundary          "run(*F, FAM )" as run
+database          "Passes"  as Passes
+entity            "PassModle"  as passmodel
+boundary          "run(IR, AM, ExtraArgs...)" as passmodel_run
+entity            "MyPass" as mypass
+boundary          "run(IR, FAM)" as mypass_run
+entity            "FunctionAnalysisManager" as FAM
+boundary          "getResult(IR)" as getResult
+boundary          "getResultImpl(Pass::ID(), IR, ExtrArgs...)" as getResultImpl
+boundary          "lookUpPass(Pass::ID())" as lookup
+entity            "MyAnalysisPass" as myanalysispass
+boundary          "run(IR, AnalysisManager, ExtraArgs..)" as myanalysisrun
+
+FPM       ->      run : FunctionPassManager\n运行run接口, 执行PM中\n的所有Pass
+run       ->      Passes : 遍历FunctionPassManager::Passes\n,获取所有的PassModel
+Passes    ->      passmodel : 获取到PassModel
+passmodel ->      passmodel_run : 每一个passmodel执行run接口,\n进而调用PassModel内部真正的\nPass
+passmodel_run ->  mypass : 启动PassModel内部真正的Pass执行
+mypass    ->      mypass_run : 运行真正的自定义Pass的run函数
+mypass_run->      FAM         : 运行真正的自定义Pass的run函数
+
+
+
+@enduml
