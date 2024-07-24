@@ -1,0 +1,24 @@
+@startuml
+
+title "MyPass addpass分析"
+
+autonumber
+
+actor       User
+participant FunctionPassManager
+boundary    "addPass()" as addPass
+participant MyPass
+Database Passes
+
+
+User                        ->          FunctionPassManager : 用户构建一个\nFunctionPassManager对象
+
+FunctionPassManager         ->          addPass             : FunctionPassManager调用addPass()接口
+
+addPass                     ->          MyPass              : 在addPass()结构的参数中构造一个MyPass对象
+
+addPass                     ->          Passes              : 判断插入的类型是Pass还是PassManager来决定如何插入
+
+MyPass                      ->          Passes              : 将Pass插入到Passes中
+
+@enduml

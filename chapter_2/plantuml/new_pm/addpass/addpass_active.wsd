@@ -1,0 +1,28 @@
+@startuml
+
+title "addpass分析流程图"
+
+start
+
+:构建一个FunctionPassManager;
+
+:FunctionPassManager调用
+**__addPass()__**接口;
+
+:**__addPass()__**接口需要传入一个
+MyPass的右值对象;
+
+if (**__addPass()__**接口会判断
+    传入的右值对象是一个Pass还是
+    一个PassManager?) then (如果是Pass)
+  :使用std::move()转移
+   右值对象的所有权到Passes
+   这个DenseMap容器中;
+else (如果右值对象是PassManager)
+  while (迭代遍历传入的PassManager中所有的Pass)
+    :将遍历的PassManager一一插入到Passes中;
+  endwhile
+endif
+
+stop
+@enduml

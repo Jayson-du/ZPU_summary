@@ -1,0 +1,28 @@
+@startuml
+
+title "registerpass分析流程图"
+
+start
+
+:构建一个
+ **__FunctionAnalysisManager__**
+ 对象FAM;
+
+:FunctionPassManager调用
+**__registerPass()__**接口;
+
+:**__registerPass()__**接口需要传入一个
+MyAnalysisPass的右值对象;
+
+if (**__registerPass()__**根据
+    **__MyAnalysisPass::ID__**
+    来判断当前FAM中AnalysisPasses容器
+    是否已经插入了**__MyAnalysisPass**) then (如果没有插入)
+  :将**__MyAnalysisPass__**插入到
+   FAM的AnalysisPasses容器中;
+else (如果已经插入)
+  :直接返回;
+endif
+
+stop
+@enduml

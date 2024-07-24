@@ -1,0 +1,24 @@
+@startuml
+
+title "register pass 流程分析图"
+
+autonumber
+
+actor             User
+participant       "FunctionAnalysisManager" as FAM
+boundary          "registerPass()"   as register
+participant       "MyAnalysisPass" as MyAnalysis
+database          "AnalysisPasses" as AnalysisPasses
+
+User            ->            FAM   : 构建一个\nFunctionAnalysisManager\n对象FAM
+
+FAM             ->            register : FAM对象调用registerPass()接口
+
+register        ->            MyAnalysis : 调用registerPass()接口\n需要构造一个MyAnalysisPass右值对象
+
+register        ->            AnalysisPasses : registerPass()接口将MyAnalysisPass的ID传给AnalysisPasses
+
+MyAnalysis      ->            AnalysisPasses : AnalysisPasses是一个DenseMap容器,\nDenseMap根据MyAnalysisPass::ID查找\n当前容器中是否否已经包含了\nMyAnalysisPass, 如果没有包含则\n将MyAnalysisPass分装成PassModelT插入\nAnalysisPasses容器中, 如果已经插入则直接返回
+
+
+@enduml
