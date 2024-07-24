@@ -14,18 +14,25 @@ boundary          "run(IR, FAM)" as mypass_run
 entity            "FunctionAnalysisManager" as FAM
 boundary          "getResult(IR)" as getResult
 boundary          "getResultImpl(Pass::ID(), IR, ExtrArgs...)" as getResultImpl
+entity            "AnalysisResult" as analysisResult
 boundary          "lookUpPass(Pass::ID())" as lookup
 entity            "MyAnalysisPass" as myanalysispass
 boundary          "run(IR, AnalysisManager, ExtraArgs..)" as myanalysisrun
 
-FPM       ->      run : FunctionPassManager\n运行run接口, 执行PM中\n的所有Pass
-run       ->      Passes : 遍历FunctionPassManager::Passes\n,获取所有的PassModel
-Passes    ->      passmodel : 获取到PassModel
-passmodel ->      passmodel_run : 每一个passmodel执行run接口,\n进而调用PassModel内部真正的\nPass
-passmodel_run ->  mypass : 启动PassModel内部真正的Pass执行
-mypass    ->      mypass_run : 运行真正的自定义Pass的run函数
-mypass_run->      FAM         : 运行真正的自定义Pass的run函数
-
+FPM             ->      run : FunctionPassManager\n运行run接口, 执行PM中\n的所有Pass
+run             ->      Passes : 遍历FunctionPassManager::Passes\n,获取所有的PassModel
+Passes          ->      passmodel : 获取到PassModel
+passmodel       ->      passmodel_run : 每一个passmodel执行run接口,\n进而调用PassModel内部真正的\nPass
+passmodel_run   ->      mypass : 启动PassModel内部真正的Pass执行
+mypass          ->      mypass_run : 运行真正的自定义\nPass的run函数
+mypass_run      ->      FAM         : 运行真正的自定义\nPass的run函数
+FAM             ->      getResult   : 获取自定义AnalysisPass\n的结果
+getResult       ->      getResultImpl: 调用真正的实现
+getResultImpl   ->      analysisResult : 这个AnalysisPass是否已经运行过
+analysisResult  ->      getResult : 如果这个AnalysisPass已经运行过了,则直接返回
+getResultImpl   ->      lookup        : 查找指定的\nAnalysisPass
+lookup          ->      myanalysispass: 找到指定的\nAnalysisPass
+myanalysispass  ->      myanalysisrun : 执行指定的\nAnalysisPass\n的run函数
 
 
 @enduml

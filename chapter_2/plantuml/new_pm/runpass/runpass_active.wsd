@@ -1,0 +1,55 @@
+@startuml
+
+title "run pass分析流程图"
+
+start
+
+:构建一个
+ **__FunctionPassManager__**
+ 对象FPM;
+
+:FunctionPassManager调用
+**__run()__**接口;
+
+:**__run()__**接口需要传入一个
+ IR对象和FunctionAnalysisManager对象;
+
+:构建一个PassInstrumentationAnalysis
+ 对象PI方便进行各种回调操作;
+
+while (遍历FPM的Passes对象)
+  :从Passes容器中获取所有的
+   PassModel对象;
+
+  :PassModel对象的Pass执行run();
+
+  if (Pass如果需要获取
+      某个AnalysisPass的结果)
+
+    :调用FunctionAnalysisManager的
+     getResult()接口, 去获取指定
+     AnalysisPass的分析结果;
+
+    :调用getResultImpl()接口;
+
+    if (如果AnalysisManager中的
+        AnalysisResults不存在指
+        定Pass的运行结果)
+
+      :在AnalysisManager中查找
+       指定的AnalysisPass;
+
+      :执行指定的AnalysisPass并
+       将分析结果缓存到AnalysisResults中;
+    else ()
+      :直接返回;
+    endif
+  endif
+
+  :获取到分析结果;
+  :继续运行Pass;
+endwhile
+
+
+stop
+@enduml
