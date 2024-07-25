@@ -7,6 +7,19 @@ skinparam groupInheritance 2
 ' **********
 ' 类定义
 ' **********
+
+class Value {
+
+}
+
+class User {
+
+}
+
+class Instruction {
+
+}
+
 class Function {
 
 }
@@ -15,6 +28,10 @@ class Function {
 ' **********
 ' 类关系
 ' **********
+Value                 <|--            User
+
+User                  <|--            Instruction
+
 ilist_node            <|--            Function
 GlobalObject          <|--            Function
 
