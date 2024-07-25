@@ -1,0 +1,58 @@
+@startuml
+
+title 'PassBuilder.h文件分析'
+
+top to bottom direction
+
+skinparam groupInheritance 2
+
+' **********
+' 类定义
+' **********
+class PipelineTuningOptions {
+
+}
+
+class PassBuilder {
+  - TM: TargetMachine
+  - PTO: PipelineTuningOptions
+  - PGOOpt: std::optional
+  - PIC: PassInstrumentationCallbacks
+}
+
+struct NoOpModulePass {
+
+}
+
+class NoOpModuleAnalysis {
+
+}
+
+struct NoOpCGSCCPass {
+
+}
+
+struct NoOpFunctionPass {
+
+}
+
+class NoOpFunctionAnalysis {
+
+}
+
+struct NoOpLoopNestPass {
+
+}
+
+struct NoOpLoopPass {
+
+}
+
+class noOpLoopAnalysis {
+
+}
+
+
+
+
+@enduml

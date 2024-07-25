@@ -1,0 +1,21 @@
+@startuml
+
+title "Function IR类型分析"
+top to bottom direction
+skinparam groupInheritance 2
+
+' **********
+' 类定义
+' **********
+class Function {
+
+}
+
+
+' **********
+' 类关系
+' **********
+ilist_node            <|--            Function
+GlobalObject          <|--            Function
+
+@enduml
