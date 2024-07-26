@@ -1,0 +1,61 @@
+@startuml
+
+title "User对象的内存布局图"
+top to bottom direction
+
+object "User(直接包含Use)" as user1 {
+  Use1 => beigin address
+  --
+  Use2
+  --
+  Use3
+  --
+  Value
+}
+
+note left of user1::Use1
+  起始地址(begin)
+end note
+
+note left of user1::Use3
+  结束地址(end)
+end note
+
+together {
+
+object "User(挂载Use)" as user2 {
+  Use
+  --
+  Value
+}
+
+note left of user2::Use
+  起始地址(begin)
+end note
+
+note left of user2::Value
+  结束地址(end)
+end note
+
+
+object "Use数组" as use_array {
+  Use1
+  --
+  Use2
+  --
+  Use3
+  --
+  Use4
+}
+
+}
+
+
+user2::Use        ->      use_array::Use1
+
+
+
+
+
+
+@enduml
