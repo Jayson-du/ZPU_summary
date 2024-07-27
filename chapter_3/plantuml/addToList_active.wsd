@@ -1,0 +1,27 @@
+@startuml
+
+title "addToList流程分析图"
+
+start
+
+fork
+  :Use::operator=(Value *RHS);
+  :set(RHS);
+fork again
+  :Use::operator=(const Use &RHS);
+  :set(RHS.Val);
+end fork
+
+:Use::set(Value *V);
+
+:V->addUse(*this);
+
+:Value::addUse(Use &U);
+
+:U.addToList(&UseList);
+
+:Use::addToList(Use **List);
+
+end
+
+@enduml

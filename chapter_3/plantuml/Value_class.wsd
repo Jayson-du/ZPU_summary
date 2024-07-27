@@ -1,0 +1,73 @@
+@startuml
+
+title "Value, User, Use类分析"
+
+' **********
+' 类定义
+' **********
+class Value {
+  - UseList: Use *
+}
+
+class Use {
+  - Val: Value *
+  - Next: Use *
+  - Prev: Use **
+  - Parent: User *
+}
+
+note left of Use::Val
+  `Val`是一个指向`llvm::Value`对象的指针,
+  它表示当前`Use`引用的值; `llvm::Value`
+  是LLVM中所有的值(指令, 常量, 变量)的基类
+end note
+
+note left of Use::Next
+  `Next`是一个指向下一个`Use`对象的指针,
+  在链表中, 它指向下一个使用同一`llvm::Value`
+  的`Use`对象, 这使得所有引用同一值的`Use`
+  对象形成一个链表
+end note
+
+note left of Use::Prev
+  `Prev`是一个指向上一个`Use`对象指针的指针,
+  它上一个指针的指针, 因为它能够修改前一个`Use`
+  的`Next`的指针, 在链表中, 它指向前一个`Use`
+  对象的`Next`指针的位置, 是得可以逆向遍历链表
+end note
+
+note left of Use::Parent
+  `Parent`是一个拥有这个`Use`对象的`User`对象指针,
+  `llvm::User`是一个`llvm::Value`的子类, 它表示
+  使用其他值(`llvm::Value`)的对象;通常`llvm::User`
+  是某种指令或者操作数, 通过这个指针可以知道当前`Use`
+  是属于哪个`User`对象的
+end note
+
+
+
+class User {
+
+}
+
+
+' **********
+' 类关系
+' **********
+Value               <|--        User
+Value               -down->         Use
+User                -left->         Use
+
+
+' **********
+' 注释
+' **********
+note "*`Val`指针让`Use`知道它引用哪个`Value`\n*`Next`和`Prev`字段用于将所有引用同一\n  `Value`的`Use`对象串联成一个链表, 便于快速遍历\n*`Parent`字段使每一个`Use`知道它属于哪个`User`对象,\n   从而建立从`User`到`Use`的双向链接" as note_val
+
+' **********
+' 注释关系
+' **********
+note_val            ..*         Use
+
+
+@enduml
