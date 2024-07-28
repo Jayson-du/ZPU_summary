@@ -11,6 +11,7 @@ top to bottom direction
 ' Pass管理器抽象接口
 interface PassManagerBase {
   {abstract} +add(): void
+  {abstract} +run(): void
 }
 
 together {

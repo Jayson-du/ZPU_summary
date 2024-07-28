@@ -6,14 +6,38 @@ title "Value, User, Use类分析"
 ' 类定义
 ' **********
 class Value {
+  - VTy: Type
   - UseList: Use *
+  - SubclassID: unsigned char
 }
+
+note right of Value::VTy
+  一个值(Value)必然具有一个类型(Type),
+  VTy用来记录这个Value的Type.
+  任何Value都具有一个类型,
+  哪怕它没有类型(void)
+end note
+
+note right of Value::UseList
+  llvm引入`Use`并在`Value`中添加一个
+  UseList用来个跟踪并记录`Value`的
+  使用者(一个使用者链表)
+end note
+
+note right of Value::SubclassID
+  用来指示这个Value的子类型, 用于isa<>
+  与dyn_cast<>的判断
+end note
 
 class Use {
   - Val: Value *
   - Next: Use *
   - Prev: Use **
   - Parent: User *
+  ----
+  - addToList(Use **): void
+  - removeFromList(): void
+  + set(Value *V): void
 }
 
 note left of Use::Val
@@ -45,9 +69,8 @@ note left of Use::Parent
 end note
 
 
-
 class User {
-
+  + getOperand(unsigned i): Value *
 }
 
 
