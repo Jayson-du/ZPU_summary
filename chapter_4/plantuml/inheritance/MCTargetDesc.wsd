@@ -1,0 +1,128 @@
+@startuml
+
+title "后端分析"
+
+
+class MCAsmBackend {
+  特定汇编程序的接口类
+  --
+  {abstract} + createObjectWriter() = 0
+  {abstract} + applyFixup() = 0
+  {abstract} + getFixupKindInfo() = 0
+  {abstract} + writeNopData() = 0
+  {abstract} + fixupNeedRelaxation() = 0
+  {abstract} + mayNeedRelaxation() = 0
+}
+
+class Cpu0AsmBanckend {
+  + createObjectWriter()
+  + applyFixup()
+  + getFixupKindInfo()
+  + writeNopData()
+  + fixupNeedRelaxation()
+  + mayNeedRelaxation()
+}
+
+note left of Cpu0AsmBanckend::createObjectWriter
+  创建一个MCObjectWriter用来
+  生成最终的二进制文件
+end note
+
+note left of Cpu0AsmBanckend::applyFixup
+  数据段相关的偏移值修正
+end note
+
+note left of Cpu0AsmBanckend::getFixupKindInfo
+  获取修正类型
+end note
+
+note left of Cpu0AsmBanckend::writeNopData
+  将count字节的nop序列写入给定输出
+end note
+
+' note left of Cpu0AsmBanckend::fixupNeedRelaxation
+
+' end note
+
+' note left of Cpu0AsmBanckend::mayNeedRelaxation
+
+' end note
+
+class MCInstrAnalysis {}
+class Cpu0MCInstrAnalysis {}
+
+class MCAsmInfoELF {}
+class Cpu0MCAsmInfoELF {}
+
+class MCCodeEmitter {
+  生成指令的接口类
+  --
+  {abstract} # encodeInstruction()
+}
+class Cpu0MCCodeEmitter {
+  + encodeInstruction()
+}
+
+note left of Cpu0MCCodeEmitter::encodeInstruction
+  将指令编码为二进制
+end note
+
+class MCObjectTargetWriter {
+  指定目标文件的格式
+}
+
+class MCELFObjectTargetWriter {
+  {abstract} + getRelocType() = 0
+  {abstract} + needsRelocateWithSymbol() = 0
+}
+class Cpu0MCELFObjectTargetWriter {
+  + getRelocType()
+  + needsRelocateWithSymbol()
+}
+
+class MCExpr {
+  用于解析所需的全部汇编表达式的基类
+}
+class MCTargetExpr {
+  {abstract} + printImpl() = 0
+  {abstract} + evaluateAsRelocatableImpl() = 0
+  {abstract} + visitUsedExpr() = 0
+  {abstract} + findAssociatedFragment() = 0
+  {abstract} + fixELFSymbolsInTLSFixups() = 0
+}
+class Cpu0MCTargetExpr {
+  + printImpl()
+  + evaluateAsRelocatableImpl()
+  + visitUsedExpr()
+  + findAssociatedFragment()
+  + fixELFSymbolsInTLSFixups()
+}
+
+' 类关系
+MCAsmBackend                <|--          Cpu0AsmBanckend
+
+MCInstrAnalysis             <|--          Cpu0MCInstrAnalysis
+
+MCCodeEmitter               <|--          Cpu0MCCodeEmitter
+
+MCAsmInfoELF                <|--          Cpu0MCAsmInfoELF
+
+MCObjectTargetWriter        <|--          MCELFObjectTargetWriter
+MCELFObjectTargetWriter     <|--          Cpu0MCELFObjectTargetWriter
+
+MCExpr                      <|--          MCTargetExpr
+MCTargetExpr                <|--          Cpu0MCTargetExpr
+
+' 注释
+' note "在LLVM编译器中,relaxation指的是在\n指令选择和代码生成阶段,对生成的机器指令\n进行的一种调整,以适应目标机器的具体指令\n集特性和约束;简单来说,就是为了让生成的\n机器代码能够更好地适配目标硬件,\n而对指令进行的微小修改;" as MCAsmBackend_relaxation
+
+' MCAsmBackend_relaxation     .left.            Cpu0AsmBanckend::mayneedRelaxatoin
+
+' 布局
+MCAsmBackend            .[hidden]       MCInstrAnalysis
+MCInstrAnalysis         .[hidden]       MCAsmInfoELF
+Cpu0AsmBanckend         -[hidden]-      MCCodeEmitter
+MCCodeEmitter           .[hidden]       MCObjectTargetWriter
+MCObjectTargetWriter    .[hidden]       MCExpr
+
+@enduml

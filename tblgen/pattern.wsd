@@ -1,0 +1,46 @@
+@startmindmap
+
+title Pattern继承分析
+
+top to bottom direction
+
++[#ffcc99]  SDPatternOperator
+++[#ffcc99] SDNode
++++[#LightCoral] official
+++++[#FFBBCC] ld
+++++[#FFBBCC] st
+++++[#FFBBCC] add
+++++[#FFBBCC] and
+++++[#FFBBCC] or
+++++[#FFBBCC] xor
+++++[#FFBBCC] sub
+++++[#FFBBCC] mul
+++++[#FFBBCC] rotl
+++++[#FFBBCC] rotr
+++++[#FFBBCC] shl
+++++[#FFBBCC] srl
+++++[#FFBBCC] sra
+++++[#FFBBCC] setcc
+++++[#FFBBCC] br
+++++[#FFBBCC] brcond
+++++[#FFBBCC] brind
+++++[#FFBBCC] ctlz
+++++[#FFBBCC] addr
+++++[#FFBBCC] imm
+++++[#FFBBCC] subc
+++++[#FFBBCC] addc
+++++[#FFBBCC] select
++++[#LightBlue] Cpu0
+++++[#0066ff] Cpu0JmpLink
+++++[#0066ff] Cpu0DivRem
+++++[#0066ff] Cpu0DivRemu
+++++[#0066ff] Cpu0TailCall
+++++[#0066ff] Cpu0ehret
+++++[#0066ff] Cpu0Hi
+++++[#0066ff] Cpu0Lo
+++++[#0066ff] Cpu0Wrapper
+++++[#0066ff] callseq_start
+++++[#0066ff] callseq_end
+
+
+@endmindmap

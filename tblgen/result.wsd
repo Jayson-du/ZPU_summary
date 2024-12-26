@@ -1,0 +1,223 @@
+@startmindmap
+
+' top to bottom direction
+
+skinparam defaultFontName Monaco
+
+title <font size=32 face="Monaco">lCpu0自定义指令整理</font>
+
+' skinparam defaultFontName Monaco
+
++ InstructionEncoding
+++ Instruction
++++ Cpu0Inst
+
+' class Cpu0Pseudo
+++++ Cpu0Pseudo
+
+' class PseudoSE
++++++ PseudoSE
+++++++[#0066ff] TailCall
+++++++[#0066ff] TailCallReg
++++++[#0066ff] ADJCALLSTACKDOWN
++++++[#0066ff] ADJCALLSTACKUP
++++++[#0066ff] CPRESTORE
++++++[#0066ff] LONG_BRANCH_LUi
++++++[#0066ff] LONG_BRANCH_ADDiu
++++++[#0066ff] RetLR
++++++[#0066ff] RetLL
++++++[#0066ff] CPU0eh_return32
+
+
+' class FA
+++++ FA
+
+' class ArithLogicR
++++++ ArithLogicR
+++++++[#0066ff] ADDu
+++++++[#0066ff] SUBu
+++++++[#0066ff] ADD
+++++++[#0066ff] SUB
+++++++[#0066ff] MUL
+++++++[#0066ff] AND
+++++++[#0066ff] OR
+++++++[#0066ff] XOR
+
+
+' class IntrinArithLogicR
++++++ IntrinArithLogicR
+
+' class CmpInstr
++++++ CmpInstr
+++++++[#0066ff] CMP
+++++++[#0066ff] CMPu
+
+' class LogicNOR
++++++ LogicNOR
+++++++[#0066ff] NOR
+
+' class shift_rotate_imm
++++++ shift_rotate_imm
+
+' class shift_rotate_imm32
+++++++ shift_rotate_imm32
++++++++[#0066ff] ROL
++++++++[#0066ff] ROR
++++++++[#0066ff] SHL
++++++++[#0066ff] SHR
++++++++[#0066ff] SRA
+
+
+' class shift_rotate_reg
++++++ shift_rotate_reg
+++++++[#0066ff] SRAV
+++++++[#0066ff] SHLV
+++++++[#0066ff] SHRV
+++++++[#0066ff] ROLV
+++++++[#0066ff] RORV
+
+' class SetCC_R
++++++ SetCC_R
+++++++[#0066ff] SLT
+++++++[#0066ff] SLTu
+
+' class JumpLinkReg
++++++ JumpLinkReg
+++++++[#0066ff] JALR
+
+' class Mult
++++++ Mult
+
+' class Mult32
+++++++ Mult32
++++++++[#0066ff] MULT
++++++++[#0066ff] MULTu
+
+
+' class Div
++++++ Div
+
+' class Div32
+++++++ Div32
++++++++[#0066ff] SDIV
++++++++[#0066ff] UDIV
+
+' class MoveFromLOHI
++++++ MoveFromLOHI
+++++++[#0066ff] MFHI
+++++++[#0066ff] MFLO
+
+' class MoveToLOHI
++++++ MoveToLOHI
+++++++[#0066ff] MTHI
+++++++[#0066ff] MTLO
+
+' class MoveFromC0
++++++ MoveFromC0
+++++++[#0066ff] MFCO
+
+' class MoveToC0
++++++ MoveToC0
+++++++[#0066ff] MTCO
+
+' class C0Move
++++++ C0Move
+++++++[#0066ff] C0MOVE
+
+' class CountLeading0
++++++ CountLeading0
+++++++[#0066ff] CLZ
+
+' class CountLeading1
++++++ CountLeading1
+++++++[#0066ff] CLO
+
+left side
+
+' class FL
+++++ FL
+
+' class ArithLogicI
++++++ ArithLogicI
+++++++[#0066ff] ADDiu
+++++++[#0066ff] ANDi
+++++++[#0066ff] ORi
+++++++[#0066ff] XORi
+++++++[#0066ff] UMAX
+
+' class LoadUpper
++++++ LoadUpper
+++++++[#0066ff] LUi
+
+' class FMem
++++++ FMem
+
+' class LocdM
+++++++ LoadM
+
+' class LoadM32
++++++++ LoadM32
+++++++++[#0066ff] LD
+++++++++[#0066ff] LB
+++++++++[#0066ff] LBu
+++++++++[#0066ff] LH
+++++++++[#0066ff] LHu
+
+' class StoreM
+++++++ StoreM
+
+' class StoreM32
++++++++ StoreM32
+++++++++[#0066ff] ST
+++++++++[#0066ff] SB
+++++++++[#0066ff] SH
+
+' class EffectiveAddress
+++++++ EffectiveAddress
++++++++[#0066ff] LEA_ADDiu
+
+' class CBranch16
++++++ CBranch16
+++++++[#0066ff] BEQ
+++++++[#0066ff] BNE
+
+' class SetCC_I
++++++ SetCC_I
+++++++[#0066ff] SLTi
+++++++[#0066ff] SLTiu
+
+' class JumpFR
++++++ JumpFR
+++++++[#0066ff] JR
+
+' class RetBase
+++++++ RetBase
++++++++[#0066ff] RET
+
+' class FJ
+++++ FJ
+
+' class CBranch24
++++++ CBranch24
+++++++[#0066ff] JEQ
+++++++[#0066ff] JNE
+++++++[#0066ff] JLT
+++++++[#0066ff] JGT
+++++++[#0066ff] JLE
+++++++[#0066ff] JGE
+
+' class UncondBranch
++++++ UncondBranch
+++++++[#0066ff] JMP
+
+' class JumpLink
++++++ JumpLink
+++++++[#0066ff] JSUB
+
++++++[#0066ff] RET
++++++[#0066ff] NOP
+
+
+
+
+@endmindmap
