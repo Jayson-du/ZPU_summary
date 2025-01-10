@@ -1,0 +1,121 @@
+@startuml SLP算法分析
+
+class BoUpSLP {
+  SLP算法核心类
+  ----
+  - AssumptionCache AC
+  - DenseMap<> AliasCache
+  - SmallPtrSet<> AnalyzedReductionRoots
+  - DenseSet<> AnalyzedReductionVals
+  - BatchAAResults BatchAA
+  - MapVector<> BlocksSchedules
+  - IRBuilder<> Builder
+  - SetVector<> CSEBlocks
+  - DemandedBits DB
+  - DenseSet DeletedInstructions
+  - DataLayout DL
+  - DominatorTree DT
+  - DenseMap EntryToLastInstruction
+  - SmallPtrSet EphValues
+  - UserList ExternalUses
+  - Function F
+  - SetVector GatherShuffleExtractSeq
+  - SmallDenseMap<> InstrElementSize
+  - LoopInfo LI
+  - unsigned MaxVecRegSize
+  - MapVector<> MinBWs
+  - unsigned MinVecRegSize
+  - ValueSet MustGather
+  - OptimizationRemarkEmitter ORE
+  - SetVector<> PostponedGathers
+  - SmallDenseMap<> ScalarToTreeEntry
+  - ScalarEvolution SE
+  - TargetLibraryInfo TLI
+  - TargetTransformInfo TTI
+  - SmallDenseSet<> UserIgnoreList
+  - ValueToGatherNodeMap ValueToGatherNodes
+  - SmallVector<> VectorizableTree
+}
+
+struct ScheduleData {
+  存储调度信息
+  ----
+  + Instruction Inst
+  + Value OpValue
+  + TreeEntry TE
+  + ScheduleData FirstInBundle
+  + ScheduleData NextInBundle
+  + <b>ScheduleData</b> NextLoadStore
+  + SmallVector<ScheduleData> MemoryDependencies
+  + SmallVector<ScheduleData> ControlDependencies
+  + int SchedulingRegionID
+  + int SchedulingPriority
+  + Dependencies
+  + UnscheduleDeps
+  + IsScheduled
+}
+
+class ShuffleCostEstimator {
+
+}
+
+class ShuffleInstructionBuilder {
+
+}
+
+struct EdgeInfo {
+  + TreeEntry UserTE
+  + unsigned EdgeIdx
+}
+
+class LookAheadHeuristics {
+
+}
+
+class VLOperand {
+
+}
+
+struct TreeEntry {
+  + ValueList Scalars
+  + WeakTrackingVH VectorizedValue
+  + EntryState State
+  + SmallVector<int, 4> ReuseShuffleIndices
+  + SmallVector<unsigned, 4> Container
+  + SmallVector<EdgeInfo, 1> UserTreeIndices
+  + int Idx
+  - SmallVector<ValueList, 2> Operands
+  - Instruction MainOp
+  - Instruction AltOp
+}
+
+struct ExternalUser {
+
+}
+
+struct ScheduleData {
+
+}
+
+struct BlockScheduling {
+
+}
+
+struct OrdersTypeDenseMapInfo {
+
+}
+
+'
+
+BoUpSLP             *--                 ScheduleData
+BoUpSLP             *--                 ShuffleCostEstimator
+BoUpSLP             *--                 ShuffleInstructionBuilder
+BoUpSLP             *--                 EdgeInfo
+BoUpSLP             *--                 LookAheadHeuristics
+BoUpSLP             *--                 VLOperand
+BoUpSLP             *--                 TreeEntry
+BoUpSLP             *--                 ExternalUser
+BoUpSLP             *--                 BlockScheduling
+BoUpSLP             *--                 OrdersTypeDenseMapInfo
+
+@enduml
